@@ -1,0 +1,35 @@
+<table style="width:100%">
+  <tr *ngFor="let todo of service.list" [ngClass]="{ editing: todo.editing }">
+    <td>
+      <div *ngIf="!todo.editing">
+        <table class="table table-hover">
+          <tr>
+            <td>
+              <mat-checkbox
+                #is_complete="ngModel"
+                name="is_complete"
+                [(ngModel)]="todo.is_complete"
+                (ngModelChange)="onTaskCheck(todo)"
+              >
+              </mat-checkbox>
+            </td>
+            <td style="width:100%" (dblclick)="todo.editing = true">
+              <label (dblclick)="todo.editing = true">{{
+                todo.task_name
+              }}</label>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <input
+        *ngIf="todo.editing"
+        #updatedTodo
+        [value]="todo.task_name"
+        (blur)="updateTodo(todo, updatedTodo.value)"
+        (keyup.escape)="todo.editing = false"
+        (keyup.enter)="updateTodo(todo, updatedTodo.value)"
+      />
+    </td>
+  </tr>
+</table>
